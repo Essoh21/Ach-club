@@ -47,6 +47,14 @@ exports.getUserProfilePage = asyncHandler(async (req, res, next) => {
   res.send("user profile");
 });
 
+exports.getPictureUpdate = asyncHandler(async (req, res, next) => {
+  res.send("picture update get");
+});
+
+exports.postPictureUpdate = asyncHandler(async (req, res, next) => {
+  res.send("picture update post ");
+});
+
 exports.getMembershipConfirmation = (req, res, next) => {
   res.send("membership confirmation");
 };

@@ -1,0 +1,25 @@
+extends layout 
+block  suite 
+    main 
+        section.signup 
+            h1 Sign Up to Ach-Club 
+            form(action="" method="POST" autocomplete="on")
+                div(class='firstname form-item' )
+                    label(for="firstname") First Name 
+                    input(type="text" id='firstname' required, name='firstname' placeholder= 'first name ' value=(validData?validData.firstname:''))
+                div(class='lastname form-item' )
+                    label(for="lastname") Last Name 
+                    input(type="text" id='lastname' required  name='lastname' placeholder="family name " value=(validData?validData.lastname:'') ) 
+                div(class='email form-item' )
+                    label(for="email") Email  
+                    input(type="email" required for='email' name='email' placeholder='email' value=(validData?validData.email:''))
+                if errors 
+                    div 
+                        each  error in errors 
+                            ul.errors  
+                                li= error.msg 
+                button.form-submit Submit 
+            .already-member 
+                span Menber?
+                span 
+                    a(href="/signin") Sign In  

@@ -27,6 +27,7 @@ header a {
 main {
   box-sizing: border-box;
   min-width: 100%;
+  min-height: 90vh;
   margin: 0;
   padding: 0.5rem 2rem 2rem 2rem;
   font-family: Arial, Helvetica, sans-serif;
@@ -57,12 +58,65 @@ ul a:hover {
   background-color: white;
   max-width: 60%;
   margin: 1rem auto;
-  min-height: 90vh;
+  min-height: 80vh;
   border-left: 1px solid #c5c3c3;
   border-right: 1px solid #c5c3c3;
   color: gray;
 }
 
+/*signup form */
+.signup {
+  max-width: 30rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: auto;
+  margin-top: 3rem;
+  color: #706e6e;
+  border-radius: 0.3rem;
+  border: 1px solid #c5c3c3;
+  padding: 1rem 2rem;
+}
+.signup h1 {
+  align-self: center;
+}
+
+.signup form {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: large;
+  color: #333;
+}
+.form-item {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.form-item input {
+  padding: 0.2rem 0.4rem;
+  font-size: large;
+}
+.signup form label {
+  display: inline-block;
+  width: 8rem;
+  text-align: right;
+}
+
+.form-submit {
+  max-width: 6rem;
+  align-self: center;
+  font-weight: bold;
+  font-size: large;
+  padding: 0.2rem 0.4rem;
+}
+.errors {
+  color: #5c1c1c;
+}
+
+/* all footers */
 footer {
   box-sizing: border-box;
   width: 100%;
@@ -86,5 +140,14 @@ footer a {
   }
   .home-page-members {
     max-width: 80%;
+  }
+  .signup input {
+    width: 100%;
+  }
+  .signup {
+    font-size: small;
+  }
+  .signup form label {
+    text-align: center;
   }
 }

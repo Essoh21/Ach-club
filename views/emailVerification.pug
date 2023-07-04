@@ -1,0 +1,10 @@
+extends layout 
+block suite 
+    main 
+        section.email-verification 
+            h1 Email verification 
+            p Verify your emails and enter the code you've received in the field below
+            form(action="" method='POST')
+                .code 
+                    label(for="code") Code 
+                    input(type="number" id='code' name=code)    

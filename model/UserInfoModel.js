@@ -23,11 +23,18 @@ const userInfoSchema = new Schema({
       },
     },
   },
+  confirmationCode: { type: Number, required: true },
+  inputCode: { type: Number, default: 1 },
+  trials: { type: Number, default: 0 },
 });
 
 //virutals
 userInfoSchema.virtual("url").get(function () {
   return `${this._id}`;
+});
+
+userInfoSchema.virtual("hasConfirmedEmail").get(function () {
+  return this.validationCode === this.inputCode ? true : false;
 });
 
 const UserInfoModel = mongoose.model("UserInfo", userInfoSchema);

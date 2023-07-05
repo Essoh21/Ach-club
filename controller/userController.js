@@ -5,6 +5,7 @@ const validation = require("../validation");
 const random = require("../helpers/generateFiveDigitNumber");
 const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
 const { validationResult, matchedData } = require("express-validator");
+const { response } = require("express");
 
 exports.getHomePage = asyncHandler(async (req, res, next) => {
   res.render("homePage", { title: "Ach-club" });
@@ -43,17 +44,44 @@ exports.postSignup = [
     //send confirmation code to email
     await sendConfirmationEmail(validData.email, confirmationCode);
 
-    res.send(userInfo);
+    res.redirect(userInfo.url + "/email");
   }),
 ];
 
 exports.getSignupEmailVerification = asyncHandler(async (req, res, next) => {
-  res.send("signup email verification get ");
+  res.render("emailVerification");
 });
 
-exports.postSignupEmailVerification = asyncHandler(async (req, res, next) => {
-  res.send("signup email verification post ");
-});
+exports.postSignupEmailVerification = [
+  validation.createCodeValidationChain("code", "invalid code"),
+  asyncHandler(async (req, res, next) => {
+    const inputCode = matchedData(req).code;
+    //load user info
+    const userInfoId = req.params.id;
+    const userInfo = await UserInfoModel.findById(userInfoId);
+    if (!userInfo) {
+      res.render("signup");
+      return;
+    }
+    //update input code in user info
+    const updatedUserInfo = new UserInfoModel({
+      firstname: userInfo.firstname,
+      lastname: userInfo.lastname,
+      email: userInfo.email,
+      confirmationCode: userInfo.confirmationCode,
+      inputCode: inputCode,
+      trials: userInfo.trials + 1,
+      _id: userInfo._id,
+    });
+    await UserInfoModel.findByIdAndUpdate(userInfoId, updatedUserInfo);
+    if (!updatedUserInfo.hasConfirmedEmail) {
+      res.render("emailVerification", { error: "invalid code. try again" });
+      return;
+    }
+
+    res.send(updatedUserInfo.hasConfirmedEmail);
+  }),
+];
 
 exports.getSignupPassword = asyncHandler(async (req, res, next) => {
   res.send("signup password get ");

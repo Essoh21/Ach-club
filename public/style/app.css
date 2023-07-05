@@ -129,6 +129,36 @@ footer a {
   text-decoration: none;
   color: inherit;
 }
+
+/*email verification */
+.email-verification {
+  max-width: 20rem;
+  margin: auto;
+  font-size: large;
+}
+.email-verification form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.verification {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: larger;
+}
+.email-verification dt,
+.email-verification dd {
+  color: #a10404;
+}
+.email-verification input {
+  padding: 0.2rem 0.3rem;
+}
+.email-verification button {
+  font-weight: bold;
+}
 /* responsiveness */
 @media (max-width: 500px) {
   header {

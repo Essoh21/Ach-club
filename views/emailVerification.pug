@@ -7,4 +7,9 @@ block suite
             form(action="" method='POST')
                 .code 
                     label(for="code") Code 
-                    input(type="number" id='code' name=code)    
+                    .verification 
+                        input(type="number" required id='code' name='code' autofocus)  
+                        button Confirm  
+                if error 
+                    dt Error
+                        dd= error 

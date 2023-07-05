@@ -34,7 +34,7 @@ userInfoSchema.virtual("url").get(function () {
 });
 
 userInfoSchema.virtual("hasConfirmedEmail").get(function () {
-  return this.validationCode === this.inputCode ? true : false;
+  return this.confirmationCode === this.inputCode ? true : false;
 });
 
 const UserInfoModel = mongoose.model("UserInfo", userInfoSchema);

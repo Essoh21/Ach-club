@@ -3,4 +3,4 @@ exports.generateFiveDigitNumber = () => {
   const max = 99999; // Maximum 5-digit number (inclusive)
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-console.log(this.generateFiveDigitNumber());
+//console.log(this.generateFiveDigitNumber());

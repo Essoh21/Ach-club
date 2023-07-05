@@ -19,3 +19,13 @@ exports.createEmailValidationChain = (fieldName, errorText) => {
     .withMessage("invalid email")
     .escape();
 };
+
+exports.createCodeValidationChain = (fieldName, errorText) => {
+  return body(`${fieldName}`, `${errorText}`)
+    .trim()
+    .notEmpty()
+    .withMessage("empty code node allowed")
+    .isNumeric()
+    .withMessage("invalid code")
+    .escape();
+};

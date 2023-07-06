@@ -90,17 +90,50 @@ exports.postSignupEmailVerification = [
       }
     }
 
-    res.redirect("/user/" + userInfoId + "pass");
+    res.redirect("/user/" + userInfoId + "/pass");
   }),
 ];
 
 exports.getSignupPassword = asyncHandler(async (req, res, next) => {
-  res.send("signup password get ");
+  res.render("password");
 });
 
-exports.postSignupPassword = asyncHandler(async (req, res, next) => {
-  res.send("signup password post ");
-});
+//pseudo and password validators
+const createPseudoStringValidationChain =
+  validation.createPseudoStringValidationChain(body);
+const createUniquePseudoValidation =
+  validation.createUniquePseudoValidator(UserModel);
+const createPasswordValidationChain =
+  validation.createPasswordValidationChain(body);
+const createPasswordConfirmation =
+  validation.createPasswordConfirmationValidator("password");
+//
+exports.postSignupPassword = [
+  createPseudoStringValidationChain("pseudo", "invalid Pseudo"),
+  body("pseudo").custom(createUniquePseudoValidation),
+  createPasswordValidationChain("password", "invalid password"),
+  body("passConfirmation")
+    .notEmpty()
+    .withMessage("password confirmation is required")
+    .custom(createPasswordConfirmation),
+  asyncHandler(async (req, res, next) => {
+    const userInfoId = req.params.id;
+    const validationError = validationResult(req);
+    const validData = matchedData(req);
+    if (!validationError.isEmpty()) {
+      res.render("password", { errors: validationError.array() });
+      return;
+    }
+    // if data is valide then create userModel instance and save it
+    const user = new UserModel({
+      userInfo: userInfoId,
+      pseudo: validData.pseudo,
+      password: validData.password,
+    });
+    await user.save();
+    res.send(user);
+  }),
+];
 
 exports.getWelcomeSignIn = (req, res, next) => {
   res.send("welcome after signup ");

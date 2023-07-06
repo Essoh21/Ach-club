@@ -5,13 +5,16 @@ const userController = require("../controller/userController");
 router.get("/", userController.getHomePage);
 router.get("/user/signup", userController.getSignup);
 router.post("/user/signup", userController.postSignup);
-router.get("/user/:id/verification", userController.getSignupEmailVerification);
+router.get(
+  "/user/:id/info/verification",
+  userController.getSignupEmailVerification
+);
 router.post(
   "/user/:id/info/verification",
   userController.postSignupEmailVerification
 );
 router.get("/user/:id/pass", userController.getSignupPassword);
-router.post("/user/pass", userController.postSignupPassword);
+router.post("/user/:id/pass", userController.postSignupPassword);
 router.get("/user/welcome", userController.getWelcomeSignIn);
 router.get("/user/signin", userController.getSignIn);
 router.post("/user/signin", userController.postSignIn);

@@ -177,7 +177,8 @@ footer a {
   .home-page-members {
     max-width: 80%;
   }
-  .signup input {
+  .signup input,
+  .password-create input {
     width: 100%;
   }
   .signup {

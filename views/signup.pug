@@ -12,7 +12,7 @@ block  suite
                     input(type="text" id='lastname' required  name='lastname' placeholder="family name " value=(validData?validData.lastname:'') ) 
                 div(class='email form-item' )
                     label(for="email") Email  
-                    input(type="email" required for='email' name='email' placeholder='email' value=(validData?validData.email:''))
+                    input(type="email" required id='email' name='email' placeholder='email' value=(validData?validData.email:''))
                 if errors 
                     div 
                         each  error in errors 
@@ -22,4 +22,4 @@ block  suite
             .already-member 
                 span Menber?
                 span 
-                    a(href="/signin") Sign In  
+                    a(href="/user/signin") Sign In  

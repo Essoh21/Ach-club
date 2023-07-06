@@ -7,7 +7,7 @@ const userSchema = new Schema({
 });
 
 userSchema.virtual("url").get(function () {
-  return `${this._id}`;
+  return `/user/${this._id}`;
 });
 
 const UserModel = mongoose.model("User", userSchema);

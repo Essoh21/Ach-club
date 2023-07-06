@@ -17,7 +17,7 @@ messageSchema.virtual("formatted_DateTime").get(function () {
 });
 
 messageSchema.virtual("url").get(function () {
-  return `${this._id}`;
+  return `/user/${this._id}/message`;
 });
 
 const MessageModel = mongoose.model("MESSAGE", messageSchema);

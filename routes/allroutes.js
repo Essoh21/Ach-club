@@ -3,15 +3,18 @@ const router = express.Router();
 const userController = require("../controller/userController");
 
 router.get("/", userController.getHomePage);
-router.get("/signup", userController.getSignup);
-router.post("/signup", userController.postSignup);
-router.get("/:id/email", userController.getSignupEmailVerification);
-router.post("/:id/email", userController.postSignupEmailVerification);
-router.get("/pass", userController.getSignupPassword);
-router.post("/pass", userController.postSignupPassword);
-router.get("/welcome", userController.getWelcomeSignIn);
-router.get("/signin", userController.getSignIn);
-router.post("/signin", userController.postSignIn);
+router.get("/user/signup", userController.getSignup);
+router.post("/user/signup", userController.postSignup);
+router.get("/user/:id/verification", userController.getSignupEmailVerification);
+router.post(
+  "/user/:id/info/verification",
+  userController.postSignupEmailVerification
+);
+router.get("/user/:id/pass", userController.getSignupPassword);
+router.post("/user/pass", userController.postSignupPassword);
+router.get("/user/welcome", userController.getWelcomeSignIn);
+router.get("/user/signin", userController.getSignIn);
+router.post("/user/signin", userController.postSignIn);
 router.get("/user/:id", userController.getUserPage);
 router.get("/user/:id/profile", userController.getUserProfilePage);
 router.get("user/:id/picture-update", userController.getPictureUpdate);

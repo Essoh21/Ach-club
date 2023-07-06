@@ -10,6 +10,23 @@ exports.createStringValidationChain = (fieldname, errorText) => {
     .escape();
 };
 
+exports.createUniqueEmailValidator = (dataModel) => async (fieldValue) => {
+  try {
+    const data = await dataModel.findOne({ email: fieldValue });
+    if (data) {
+      throw new Error("Email already exists. Please choose a different email.");
+    } else if (!data) {
+      return true;
+    }
+  } catch (error) {
+    if (error.code) {
+      throw new Error("Something went wrong. Please try again later");
+    } else {
+      throw new Error("Error: " + error.message);
+    }
+  }
+};
+
 exports.createEmailValidationChain = (fieldName, errorText) => {
   return body(`${fieldName}`, `${errorText}`)
     .trim()

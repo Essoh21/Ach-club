@@ -30,7 +30,7 @@ const userInfoSchema = new Schema({
 
 //virutals
 userInfoSchema.virtual("url").get(function () {
-  return `${this._id}`;
+  return `/user/${this._id}/info`;
 });
 
 userInfoSchema.virtual("hasConfirmedEmail").get(function () {

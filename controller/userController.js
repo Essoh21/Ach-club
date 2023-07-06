@@ -4,8 +4,7 @@ const UserInfoModel = require("../model/UserInfoModel");
 const validation = require("../validation");
 const random = require("../helpers/generateFiveDigitNumber");
 const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
-const { validationResult, matchedData } = require("express-validator");
-const { response } = require("express");
+const { validationResult, matchedData, body } = require("express-validator");
 
 exports.getHomePage = asyncHandler(async (req, res, next) => {
   res.render("homePage", { title: "Ach-club" });
@@ -15,10 +14,16 @@ exports.getSignup = (req, res, next) => {
   res.render("signup");
 };
 
+//custom validator function
+const uniqueEmailValidation =
+  validation.createUniqueEmailValidator(UserInfoModel);
+//
 exports.postSignup = [
   validation.createStringValidationChain("firstname", "invalid name"),
   validation.createStringValidationChain("lastname", "invalid name"),
+  body("email").custom(uniqueEmailValidation),
   validation.createEmailValidationChain("email", "invalid email format"),
+
   asyncHandler(async (req, res, next) => {
     const validationErr = validationResult(req);
     const validData = matchedData(req);
@@ -44,7 +49,7 @@ exports.postSignup = [
     //send confirmation code to email
     await sendConfirmationEmail(validData.email, confirmationCode);
 
-    res.redirect(userInfo.url + "/email");
+    res.redirect(userInfo.url + "/verification");
   }),
 ];
 
@@ -75,11 +80,17 @@ exports.postSignupEmailVerification = [
     });
     await UserInfoModel.findByIdAndUpdate(userInfoId, updatedUserInfo);
     if (!updatedUserInfo.hasConfirmedEmail) {
-      res.render("emailVerification", { error: "invalid code. try again" });
-      return;
+      if (updatedUserInfo.trials < 4) {
+        res.render("emailVerification", { error: "invalid code. try again" });
+        return;
+      } else {
+        await UserInfoModel.findByIdAndRemove(userInfoId);
+        res.redirect("/user/signup");
+        return;
+      }
     }
 
-    res.send(updatedUserInfo.hasConfirmedEmail);
+    res.redirect("/user/" + userInfoId + "pass");
   }),
 ];
 

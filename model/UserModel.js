@@ -5,6 +5,7 @@ const userSchema = new Schema({
   userInfo: { type: Schema.Types.ObjectId, ref: "userInfo", required: true },
   pseudo: { type: String, required: true, maxLength: 15, minLength: 4 },
   password: { type: String, required: true },
+  salt: { type: String, required: true },
 });
 
 userSchema.virtual("url").get(function () {

@@ -27,6 +27,28 @@ exports.createUniquePseudoValidator = (dataModel) => async (fieldValue) => {
     }
   }
 };
+exports.createUniqueUserValidator =
+  (dataModel, idRoutingParameter) =>
+  async (fieldValue, { req }) => {
+    try {
+      const data = await dataModel.findOne({
+        userInfo: req.params[`${idRoutingParameter}`],
+      });
+      if (data) {
+        throw new Error(
+          "You already have Pseudo and password.Please go to Home page and Sign In"
+        );
+      } else if (!data) {
+        return true;
+      }
+    } catch (error) {
+      if (error.code) {
+        throw new Error("Something went wrong. Please try again later.");
+      } else {
+        throw new Error("Error: " + error.message);
+      }
+    }
+  };
 
 exports.createUniqueEmailValidator = (dataModel) => async (fieldValue) => {
   try {

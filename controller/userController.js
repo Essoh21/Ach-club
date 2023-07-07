@@ -6,6 +6,8 @@ const random = require("../helpers/generateFiveDigitNumber");
 const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
 const { validationResult, matchedData, body } = require("express-validator");
 
+const crypto = require("crypto"); // for encryption
+
 exports.getHomePage = asyncHandler(async (req, res, next) => {
   res.render("homePage", { title: "Ach-club" });
 });
@@ -103,6 +105,10 @@ const createPseudoStringValidationChain =
   validation.createPseudoStringValidationChain(body);
 const createUniquePseudoValidation =
   validation.createUniquePseudoValidator(UserModel);
+const createUniqueUserValidation = validation.createUniqueUserValidator(
+  UserModel,
+  "id"
+);
 const createPasswordValidationChain =
   validation.createPasswordValidationChain(body);
 const createPasswordConfirmation =
@@ -110,7 +116,9 @@ const createPasswordConfirmation =
 //
 exports.postSignupPassword = [
   createPseudoStringValidationChain("pseudo", "invalid Pseudo"),
-  body("pseudo").custom(createUniquePseudoValidation),
+  body("pseudo")
+    .custom(createUniquePseudoValidation)
+    .custom(createUniqueUserValidation),
   createPasswordValidationChain("password", "invalid password"),
   body("passConfirmation")
     .notEmpty()
@@ -125,22 +133,38 @@ exports.postSignupPassword = [
       return;
     }
     // if data is valide then create userModel instance and save it
-    const user = new UserModel({
-      userInfo: userInfoId,
-      pseudo: validData.pseudo,
-      password: validData.password,
-    });
-    await user.save();
-    res.send(user);
+    //first encrypt the password
+    const salt = crypto.randomBytes(20); //generate 20 bytes random data
+    crypto.pbkdf2(
+      validData.password,
+      salt,
+      100,
+      30,
+      "sha256",
+      async (error, hashedPassword) => {
+        if (error) {
+          return next(error);
+        }
+        //if password is hashed
+        const user = new UserModel({
+          userInfo: userInfoId,
+          pseudo: validData.pseudo,
+          password: hashedPassword,
+          salt: salt,
+        });
+        await user.save();
+        res.redirect("/user/welcome");
+      }
+    );
   }),
 ];
 
 exports.getWelcomeSignIn = (req, res, next) => {
-  res.send("welcome after signup ");
+  res.render("welcome");
 };
 
 exports.getSignIn = (req, res, next) => {
-  res.send("sign In get ");
+  res.render("signin");
 };
 
 exports.postSignIn = asyncHandler(async (req, res, next) => {

@@ -66,6 +66,7 @@ ul a:hover {
 
 /*signup form */
 .signup,
+.signin,
 .password-create {
   max-width: 30rem;
   display: flex;
@@ -78,11 +79,13 @@ ul a:hover {
   border: 1px solid #c5c3c3;
   padding: 1rem 2rem;
 }
-.signup h1 {
+.signup h1,
+.signin h1 {
   align-self: center;
 }
 
 .signup form,
+.signin form,
 .password-create form {
   box-sizing: border-box;
   display: flex;
@@ -102,6 +105,7 @@ ul a:hover {
   font-size: large;
 }
 .signup form label,
+.signin form label,
 .password-create form label {
   display: inline-block;
   width: 8rem;
@@ -163,7 +167,14 @@ footer a {
   font-weight: bold;
 }
 
-/* password creation */
+/* welcome */
+.content {
+  margin: auto;
+  max-width: 30rem;
+}
+.content a {
+  font-size: larger;
+}
 
 /* responsiveness */
 @media (max-width: 500px) {
@@ -178,13 +189,16 @@ footer a {
     max-width: 80%;
   }
   .signup input,
+  .signin input,
   .password-create input {
     width: 100%;
   }
-  .signup {
+  .signup,
+  .signin {
     font-size: small;
   }
-  .signup form label {
+  .signup form label,
+  .signin form label {
     text-align: center;
   }
 }

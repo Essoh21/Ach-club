@@ -1,0 +1,22 @@
+extends layout 
+block  suite 
+    main 
+        section.signin 
+            h1 Sign In to Ach-Club 
+            form(action="" method="POST" autocomplete="on")
+                section(class='pseudoname form-item' )
+                    label(for="pseudoname") Pseudo name 
+                    input(type="text" id='pseudoname' required, name='pseudoname' placeholder= 'your Pseudo ' value=(validData?validData.pseudoname:''))
+                section(class='password form-item' )
+                    label(for="password") Password 
+                    input(type="password" id='password' required  name='password' placeholder="password"  ) 
+                if errors 
+                    div 
+                        each  error in errors 
+                            ul.errors  
+                                li= error.msg 
+                button.form-submit Log In 
+            .not-member 
+                span New here?
+                span 
+                    a(href="/user/signup") Sign Up 

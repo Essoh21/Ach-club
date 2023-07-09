@@ -5,8 +5,7 @@ const validation = require("../validation");
 const random = require("../helpers/generateFiveDigitNumber");
 const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
 const { validationResult, matchedData, body } = require("express-validator");
-
-const crypto = require("crypto"); // for encryption
+const passport = require("passport");
 
 exports.getHomePage = asyncHandler(async (req, res, next) => {
   res.render("homePage", { title: "Ach-club" });
@@ -133,29 +132,19 @@ exports.postSignupPassword = [
       return;
     }
     // if data is valide then create userModel instance and save it
-    //first encrypt the password
-    const salt = crypto.randomBytes(20); //generate 20 bytes random data
-    crypto.pbkdf2(
-      validData.password,
-      salt,
-      100,
-      30,
-      "sha256",
-      async (error, hashedPassword) => {
-        if (error) {
-          return next(error);
-        }
-        //if password is hashed
-        const user = new UserModel({
-          userInfo: userInfoId,
-          pseudo: validData.pseudo,
-          password: hashedPassword,
-          salt: salt,
-        });
-        await user.save();
-        res.redirect("/user/welcome");
-      }
-    );
+    const user = new UserModel({
+      userInfo: userInfoId,
+      pseudo: validData.pseudo,
+      password: validData.password,
+    });
+
+    try {
+      await user.save();
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    res.redirect("/user/welcome");
   }),
 ];
 
@@ -167,12 +156,16 @@ exports.getSignIn = (req, res, next) => {
   res.render("signin");
 };
 
-exports.postSignIn = asyncHandler(async (req, res, next) => {
-  res.send("sign In  post ");
-});
+exports.postSignIn = [
+  passport.authenticate("local", {
+    successRedirect: "/user/page",
+    failureRedirect: "/user/signin",
+    failureFlash: true,
+  }),
+];
 
 exports.getUserPage = asyncHandler(async (req, res, next) => {
-  res.send("signed user page ");
+  res.render("userPage", { user: req.user });
 });
 
 exports.getUserProfilePage = asyncHandler(async (req, res, next) => {

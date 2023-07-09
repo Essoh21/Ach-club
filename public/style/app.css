@@ -45,11 +45,13 @@ main nav ul {
   font-size: larger;
 }
 
-ul a {
+ul a,
+#logout {
   text-decoration: none;
   color: #0a66b2;
 }
-ul a:hover {
+ul a:hover,
+#logout:hover {
   text-decoration: underline;
   color: #04809e;
 }
@@ -174,6 +176,25 @@ footer a {
 }
 .content a {
   font-size: larger;
+}
+
+/* user Page */
+
+.informations-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.user-page-nav {
+  position: relative;
+}
+.logout-page {
+  position: absolute;
+  display: none;
+}
+#logout {
+  cursor: pointer;
 }
 
 /* responsiveness */

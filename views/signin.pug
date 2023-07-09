@@ -10,11 +10,9 @@ block  suite
                 section(class='password form-item' )
                     label(for="password") Password 
                     input(type="password" id='password' required  name='password' placeholder="password"  ) 
-                if errors 
-                    div 
-                        each  error in errors 
-                            ul.errors  
-                                li= error.msg 
+                if messages.error
+                    ul.errors  
+                        li= messages.error
                 button.form-submit Log In 
             .not-member 
                 span New here?

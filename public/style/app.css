@@ -1,3 +1,8 @@
+* {
+  --border-color: #c5c3c3;
+  --logo-color: #04809e;
+  --links-color: #0a66b2;
+}
 body {
   margin: 0;
   padding: 0;
@@ -11,7 +16,7 @@ header {
   height: 4rem;
   font-weight: bold;
   box-sizing: border-box;
-  border-bottom: 1px solid #c5c3c3;
+  border-bottom: 1px solid var(--border-color);
   padding-left: 1rem;
   font-size: x-large;
   display: flex;
@@ -21,7 +26,7 @@ header {
 }
 header a {
   text-decoration: none;
-  color: #04809e;
+  color: var(--logo-color);
 }
 
 main {
@@ -48,12 +53,12 @@ main nav ul {
 ul a,
 #logout {
   text-decoration: none;
-  color: #0a66b2;
+  color: var(--links-color);
 }
 ul a:hover,
 #logout:hover {
   text-decoration: underline;
-  color: #04809e;
+  color: var(--logo-color);
 }
 
 .home-page-members {
@@ -61,8 +66,8 @@ ul a:hover,
   max-width: 60%;
   margin: 1rem auto;
   min-height: 80vh;
-  border-left: 1px solid #c5c3c3;
-  border-right: 1px solid #c5c3c3;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
   color: gray;
 }
 
@@ -130,7 +135,7 @@ footer {
   box-sizing: border-box;
   width: 100%;
   min-height: 10rem;
-  background-color: #04809e;
+  background-color: var(--logo-color);
   color: white;
   text-align: center;
 }
@@ -179,22 +184,30 @@ footer a {
 }
 
 /* user Page */
-
+.informations {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.informations h1 {
+  color: gray;
+}
 .informations-container {
+  max-width: 100%;
+  margin: auto;
+  min-height: 60vh;
+  padding: 0 1rem;
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 10rem;
 }
-
-.user-page-nav {
-  position: relative;
-}
-.logout-page {
-  position: absolute;
-  display: none;
-}
-#logout {
-  cursor: pointer;
+.messages {
+  max-width: 70%;
+  min-width: 60%;
+  min-height: 60vh;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
 }
 
 /* responsiveness */

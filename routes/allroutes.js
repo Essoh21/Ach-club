@@ -63,5 +63,10 @@ router.get(
   userController.getAdminCredentials
 );
 router.post("/user/admin", userController.postAdminCredentials);
+router.post(
+  "/user/logout",
+  routesProtection.authorizeAuthenticatedUser,
+  userController.postLogout
+);
 
 module.exports = router;

@@ -1,23 +1,18 @@
 extends layout 
 block suite 
     main 
-        nav.user-page-nav 
-            ul 
-                    li#logout Log out  
-            .logout-page 
-                form(action="/user/logout" method="POST") 
-                    h1 Do you realy want to log out ?
-                    button#logout-cancel No
-                    button#lougout-submit(type="submit") Yes. Log out
-                 
+        nav.user-page-nav
+            form(action="/user/logout" method="POST")
+                button(type="submit") Log Out           
         section.informations  
-            h1 Message board 
             .informations-container 
                 aside.user-info
                     img(src="/", alt="profile")
-                    user
-                    .messages 
-            if !user.isMember
-                aside.member-request 
-                    a(href="/user/member") Become Member? 
-    script(src="/js/app.js") 
+                    dl 
+                        dd= locals.user.pseudo
+                .messages 
+                     h1 Message board 
+                if !user.isMember
+                    aside.member-request 
+                        a(href="/user/member") Become Member? 
+    

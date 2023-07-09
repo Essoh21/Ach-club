@@ -3,10 +3,10 @@ block  suite
     main 
         section.signin 
             h1 Sign In to Ach-Club 
-            form(action="" method="POST" autocomplete="on")
+            form(action="" method="POST" )
                 section(class='pseudoname form-item' )
                     label(for="pseudoname") Pseudo name 
-                    input(type="text" id='pseudoname' required, name='pseudoname' placeholder= 'your Pseudo ' value=(validData?validData.pseudoname:''))
+                    input(type="text" id='pseudoname' autocomplete="on" required, name='pseudoname' placeholder= 'your Pseudo ' value=(validData?validData.pseudoname:''))
                 section(class='password form-item' )
                     label(for="password") Password 
                     input(type="password" id='password' required  name='password' placeholder="password"  ) 

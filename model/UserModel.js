@@ -3,7 +3,7 @@ mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 const userSchema = new Schema({
-  userInfo: { type: Schema.Types.ObjectId, ref: "userInfo", required: true },
+  userInfo: { type: Schema.Types.ObjectId, ref: "UserInfo", required: true },
   pseudo: { type: String, required: true, maxLength: 15, minLength: 4 },
   password: { type: String, required: true },
   isMember: { type: Boolean, required: true, default: false },

@@ -193,3 +193,12 @@ exports.getAdminCredentials = (req, res, next) => {
 exports.postAdminCredentials = asyncHandler(async (req, res, next) => {
   res.send("admin credentials post ");
 });
+
+exports.postLogout = (req, res, next) => {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+    res.redirect("/user/signin");
+  });
+};

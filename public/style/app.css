@@ -248,6 +248,7 @@ section .messages {
 .user-info {
   box-sizing: border-box;
   max-width: 10rem;
+  max-height: 20rem;
   padding: 0.5rem 0.7rem;
   display: flex;
   flex-direction: column;
@@ -320,6 +321,36 @@ nav button:hover {
   flex-direction: column;
   justify-content: center;
   gap: 2rem;
+}
+
+/* posted message */
+.message {
+  max-width: 50rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+}
+.message img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 100%;
+}
+.message h2 {
+  font-size: small;
+  margin: 0;
+  word-wrap: break-word;
+}
+.message .header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+.message p {
+  word-wrap: break-word;
 }
 
 /* responsiveness */

@@ -12,7 +12,7 @@ const messageSchema = new Schema({
 
 messageSchema.virtual("formatted_DateTime").get(function () {
   return DateTime.fromJSDate(this.DateTime).toLocaleString(
-    DateTime.DATE_MED + "at" + DateTime.TIME_SIMPLE
+    DateTime.DATETIME_SHORT
   ); //  to format to  month date, year at hh:mm
 });
 

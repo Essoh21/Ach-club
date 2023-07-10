@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler"); // to handle error exceptions and async functions
 const UserModel = require("../model/UserModel");
 const UserInfoModel = require("../model/UserInfoModel");
+const MessageModel = require("../model/MessageModel");
 const validation = require("../validation");
 const random = require("../helpers/generateFiveDigitNumber");
 const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
@@ -165,7 +166,9 @@ exports.postSignIn = [
 ];
 
 exports.getUserPage = asyncHandler(async (req, res, next) => {
-  res.render("userPage", { user: req.user });
+  const messages = await MessageModel.find({}).populate("user").exec();
+  console.log("----------dsd-------" + messages[0].formatted_DateTime);
+  res.render("userPage", { user: req.user, messages: messages });
 });
 
 exports.getUserProfilePage = asyncHandler(async (req, res, next) => {
@@ -207,9 +210,27 @@ exports.postAdminCredentials = asyncHandler(async (req, res, next) => {
   res.send("admin credentials post ");
 });
 
-exports.postUserMessage = asyncHandler(async (req, res, next) => {
-  res.send("posting message ... ");
-});
+exports.postUserMessage = [
+  validation.createMessageValidationChain("message", "invalid message"),
+  asyncHandler(async (req, res, next) => {
+    const validData = matchedData(req);
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.render("userPage", { errors: validationErrors.array() });
+    }
+    //prepare data for save if valide data
+    const message = new MessageModel({
+      user: req.user._id,
+      message: validData.message,
+    });
+    try {
+      await message.save();
+      return res.redirect("/user/page");
+    } catch (e) {
+      return next(e);
+    }
+  }),
+];
 
 exports.postLogout = (req, res, next) => {
   req.logout((error) => {

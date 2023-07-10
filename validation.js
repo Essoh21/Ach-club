@@ -36,7 +36,7 @@ exports.createUniqueUserValidator =
       });
       if (data) {
         throw new Error(
-          "You already have Pseudo and password.Please go to Home page and Sign In"
+          "user already exist.Please go to Home page and Sign In"
         );
       } else if (!data) {
         return true;
@@ -124,8 +124,16 @@ exports.createCodeValidationChain = (fieldName, errorText) => {
   return body(`${fieldName}`, `${errorText}`)
     .trim()
     .notEmpty()
-    .withMessage("empty code node allowed")
+    .withMessage("empty code not allowed")
     .isNumeric()
     .withMessage("invalid code")
+    .escape();
+};
+
+exports.createMessageValidationChain = (fieldName, errorText) => {
+  return body(`${fieldName}`, `${errorText}`)
+    .trim()
+    .notEmpty()
+    .withMessage("empty message not allowed")
     .escape();
 };

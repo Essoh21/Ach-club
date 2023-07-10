@@ -23,11 +23,15 @@ block suite
                             button(type="submit")   Post    
                 hr.separator
                 if messages 
-                    each message in messages 
+                    each message in messages.reverse() 
                         .message 
                             .header 
                                 img(src=message.user.avatar, alt=message.user.pseudo)
                                 h2= message.user.pseudo +"," + "  " + message.formatted_DateTime 
+                            if message.user._id === locals.user._id
+                                p(style="align-self: flex-end")!= message.message
+                            else 
+                            p(style="align-self: flex-start")!= message.message
             if !locals.user.isMember
                 aside.member-request 
                     a(href="/user/member-request") Become Member to post? #{user.isMember}

@@ -1,0 +1,14 @@
+extends layout
+block suite
+    main
+        section.membership
+            form(action="" method="POST")
+                fieldset
+                    legend Would you like to become member?
+                    section
+                        input(type="radio" id="yes" name="choice" value="yes" checked)
+                        label(for="yes") Yes
+                    section
+                        input(type="radio" id="no" name="choice" value="no")
+                        label(for="no") No
+                button(type="submit") Save

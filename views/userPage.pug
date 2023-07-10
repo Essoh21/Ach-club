@@ -7,14 +7,14 @@ block suite
         h1.messages   Message Board       
         section.informations-container
             aside.user-info
-                img(src="/", alt=locals.user.pseudo)
+                img(src=locals.user.avatar , alt=locals.user.pseudo)
                 dl 
                     dd= locals.user.pseudo
                     dd 
                         a(href="/user/profile") Profile
             .messages 
                 .new-message 
-                    img(src="/", alt=locals.user.pseudo)
+                    img(src=locals.user.avatar , alt=locals.user.pseudo)
                     form(action="/user/message" method='POST')
                         section.new-message-container 
                             label.write(for="new-message" style='visibility:hidden') write a post 
@@ -26,9 +26,9 @@ block suite
                     each message in messages 
                         .message 
                             .header 
-                                img(src="/", alt=message.user.pseudo)
+                                img(src=message.user.avatar, alt=message.user.pseudo)
                                 h2= message.user.pseudo +"," + "  " + message.formatted_DateTime 
-            if !user.isMember
+            if !locals.user.isMember
                 aside.member-request 
-                    a(href="/user/member") Become Member to post? 
+                    a(href="/user/member-request") Become Member to post? #{user.isMember}
     

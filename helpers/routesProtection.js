@@ -11,3 +11,10 @@ exports.redirectAuthenticatedUser = (req, res, next) => {
   }
   return next();
 };
+
+exports.authorizeMember = (req, res, next) => {
+  if (req.user.isMember) {
+    return next();
+  }
+  return res.redirect("/user/page");
+};

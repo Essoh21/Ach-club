@@ -7,6 +7,7 @@ const userSchema = new Schema({
   pseudo: { type: String, required: true, maxLength: 15, minLength: 4 },
   password: { type: String, required: true },
   isMember: { type: Boolean, required: true, default: false },
+  avatar: { type: String, required: true, default: "/images/thinking.jpg" },
 });
 
 userSchema.virtual("url").get(function () {

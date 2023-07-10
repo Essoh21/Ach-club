@@ -181,10 +181,23 @@ exports.postPictureUpdate = asyncHandler(async (req, res, next) => {
 });
 
 exports.getMembershipConfirmation = (req, res, next) => {
-  res.send("membership confirmation");
+  res.render("membership");
 };
 exports.postMembershipConfirmation = asyncHandler(async (req, res, next) => {
-  res.send("membership confirmation post ");
+  const userDesireToBeMember = req.body.choice === "yes" ? true : false;
+  if (userDesireToBeMember) {
+    try {
+      const userId = req.user._id; // get id from user saved with deserialzedUser function
+      const user = await UserModel.findById(userId).exec();
+      user.isMember = true;
+      user._id = userId;
+      await UserModel.findByIdAndUpdate(userId, user);
+      return res.redirect("/user/page");
+    } catch (e) {
+      return next(e);
+    }
+  }
+  return res.redirect("/user/page");
 });
 
 exports.getAdminCredentials = (req, res, next) => {
@@ -192,6 +205,10 @@ exports.getAdminCredentials = (req, res, next) => {
 };
 exports.postAdminCredentials = asyncHandler(async (req, res, next) => {
   res.send("admin credentials post ");
+});
+
+exports.postUserMessage = asyncHandler(async (req, res, next) => {
+  res.send("posting message ... ");
 });
 
 exports.postLogout = (req, res, next) => {

@@ -69,4 +69,9 @@ router.post(
   userController.postLogout
 );
 
+router.post(
+  "/user/message",
+  routesProtection.authorizeMember,
+  userController.postUserMessage
+);
 module.exports = router;

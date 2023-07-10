@@ -37,10 +37,10 @@ module.exports = (passport) => {
   });
   passport.deserializeUser(async (userId, done) => {
     try {
-      const user = await UserModel.findById(userId, "pseudo isMember").populate(
-        "userInfo",
-        "firstname lastname email"
-      );
+      const user = await UserModel.findById(
+        userId,
+        "pseudo isMember avatar"
+      ).populate("userInfo", "firstname lastname email");
       done(null, user);
     } catch (e) {
       done(e);

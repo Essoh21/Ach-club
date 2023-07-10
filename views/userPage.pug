@@ -3,16 +3,32 @@ block suite
     main 
         nav.user-page-nav
             form(action="/user/logout" method="POST")
-                button(type="submit") Log Out           
-        section.informations  
-            .informations-container 
-                aside.user-info
-                    img(src="/", alt="profile")
-                    dl 
-                        dd= locals.user.pseudo
-                .messages 
-                     h1 Message board 
-                if !user.isMember
-                    aside.member-request 
-                        a(href="/user/member") Become Member? 
+                button(type="submit") Log Out 
+        h1.messages   Message Board       
+        section.informations-container
+            aside.user-info
+                img(src="/", alt=locals.user.pseudo)
+                dl 
+                    dd= locals.user.pseudo
+                    dd 
+                        a(href="/user/profile") Profile
+            .messages 
+                .new-message 
+                    img(src="/", alt=locals.user.pseudo)
+                    form(action="/user/message" method='POST')
+                        section.new-message-container 
+                            label.write(for="new-message" style='visibility:hidden') write a post 
+                            textarea(name="message",id ="new-message" cols="auto", rows="3") write new message ... 
+                        if locals.user.isMember 
+                            button(type="submit")   Post    
+                hr.separator
+                if messages 
+                    each message in messages 
+                        .message 
+                            .header 
+                                img(src="/", alt=message.user.pseudo)
+                                h2= message.user.pseudo +"," + "  " + message.formatted_DateTime 
+            if !user.isMember
+                aside.member-request 
+                    a(href="/user/member") Become Member to post? 
     

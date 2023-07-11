@@ -58,11 +58,28 @@ router.get(
 );
 router.post("/user/member-request", userController.postMembershipConfirmation);
 router.get(
-  "/user/admin",
-  routesProtection.authorizeAuthenticatedUser,
+  "/user/admin-pass",
+  routesProtection.authorizeMember,
   userController.getAdminCredentials
 );
-router.post("/user/admin", userController.postAdminCredentials);
+router.post(
+  "/user/admin-pass",
+  routesProtection.authorizeAuthenticatedUser,
+  routesProtection.authorizeMember,
+  userController.postAdminCredentials
+);
+router.get(
+  "/user/admin",
+  routesProtection.authorizeAuthenticatedUser,
+  routesProtection.authorizeAdmin,
+  userController.getAdminCredentials
+);
+router.post(
+  "/user/admin",
+  routesProtection.authorizeAuthenticatedUser,
+  routesProtection.authorizeAdmin,
+  userController.postAdminCredentials
+);
 router.post(
   "/user/logout",
   routesProtection.authorizeAuthenticatedUser,

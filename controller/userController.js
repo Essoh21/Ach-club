@@ -211,7 +211,7 @@ exports.postMembershipConfirmation = asyncHandler(async (req, res, next) => {
 });
 
 exports.getAdminCredentials = (req, res, next) => {
-  res.send("admin credentials get ");
+  res.render("adminCredentials");
 };
 exports.postAdminCredentials = asyncHandler(async (req, res, next) => {
   res.send("admin credentials post ");

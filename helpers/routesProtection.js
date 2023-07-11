@@ -18,3 +18,10 @@ exports.authorizeMember = (req, res, next) => {
   }
   return res.redirect("/user/page");
 };
+
+exports.authorizeAdmin = (req, res, next) => {
+  if (req.user.isAdmin) {
+    return next();
+  }
+  res.redirect("/user/page");
+};

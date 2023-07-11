@@ -94,7 +94,8 @@ ul a:hover,
 
 .signup form,
 .signin form,
-.password-create form {
+.password-create form,
+.admin-credentials-body form {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -290,6 +291,7 @@ section .messages {
 }
 
 nav button,
+nav.admin-credentials a,
 .avatar-nav a {
   font-size: medium;
   border: none;
@@ -298,6 +300,7 @@ nav button,
   cursor: pointer;
 }
 nav button:hover,
+nav.admin-credentials a:hover,
 .avatar-nav a:hover {
   text-decoration: underline;
   color: var(--logo-color);
@@ -463,9 +466,37 @@ section.avatars-section h1 {
   padding: 0.2rem 0.4rem;
   font-weight: bold;
 }
-.avatar-nav a {
+.avatar-nav a,
+nav.admin-credentials a {
   text-decoration: none;
 }
+
+/*admin credentials*/
+.admin-credentials-body {
+  max-width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-credentials-body h1 {
+  color: var(--title-color);
+}
+.admin-credentials-body form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.admin-credentials-body form label {
+  text-align: center;
+}
+.admin-credentials-body form label {
+  display: inline-block;
+  width: 12rem;
+  text-align: right;
+}
+
 /* responsiveness */
 @media (max-width: 500px) {
   header {
@@ -483,6 +514,7 @@ section.avatars-section h1 {
   }
   .signup input,
   .signin input,
+  .admin-credentials-body input,
   .password-create input {
     width: 100%;
   }
@@ -491,7 +523,8 @@ section.avatars-section h1 {
     font-size: small;
   }
   .signup form label,
-  .signin form label {
+  .signin form label,
+  .admin-credentials-body form label {
     text-align: center;
   }
 

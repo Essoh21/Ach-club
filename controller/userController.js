@@ -7,6 +7,7 @@ const random = require("../helpers/generateFiveDigitNumber");
 const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
 const { validationResult, matchedData, body } = require("express-validator");
 const passport = require("passport");
+const avatarsLinks = require("../helpers/avatarsLinks");
 
 exports.getHomePage = asyncHandler(async (req, res, next) => {
   res.render("homePage", { title: "Ach-club" });
@@ -167,12 +168,11 @@ exports.postSignIn = [
 
 exports.getUserPage = asyncHandler(async (req, res, next) => {
   const messages = await MessageModel.find({}).populate("user").exec();
-  console.log("----------dsd-------" + messages[0].formatted_DateTime);
   res.render("userPage", { user: req.user, messages: messages });
 });
 
 exports.getUserProfilePage = asyncHandler(async (req, res, next) => {
-  res.send("user profile");
+  res.render("profile", { user: req.user });
 });
 
 exports.getPictureUpdate = asyncHandler(async (req, res, next) => {
@@ -192,9 +192,16 @@ exports.postMembershipConfirmation = asyncHandler(async (req, res, next) => {
     try {
       const userId = req.user._id; // get id from user saved with deserialzedUser function
       const user = await UserModel.findById(userId).exec();
-      user.isMember = true;
-      user._id = userId;
-      await UserModel.findByIdAndUpdate(userId, user);
+      const updatedUser = {
+        userInfo: user.userInfo,
+        pseudo: user.pseudo,
+        password: user.password,
+        isMember: true,
+        _id: user._id,
+        avatar: user.avatar,
+      };
+
+      await UserModel.findByIdAndUpdate(userId, updatedUser);
       return res.redirect("/user/page");
     } catch (e) {
       return next(e);
@@ -232,6 +239,9 @@ exports.postUserMessage = [
   }),
 ];
 
+exports.getChangeAvatar = asyncHandler((req, res, next) => {
+  res.render("avatarChange", { avatars: avatarsLinks, user: req.user });
+});
 exports.postLogout = (req, res, next) => {
   req.logout((error) => {
     if (error) {

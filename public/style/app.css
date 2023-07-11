@@ -2,6 +2,7 @@
   --border-color: #c5c3c3;
   --logo-color: #04809e;
   --links-color: #0a66b2;
+  --title-color: #5a5555;
 }
 body {
   margin: 0;
@@ -352,6 +353,100 @@ nav button:hover {
 .message p {
   word-wrap: break-word;
 }
+/* user profile page */
+main.profile {
+  background-image: url("/images/ach.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.profile-page {
+  box-sizing: border-box;
+  padding: 1rem 0.6rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
+  max-width: 70%;
+  margin: auto;
+  overflow-wrap: break-word;
+}
+.profile-page h1 {
+  color: var(--title-color);
+}
+.profile-page .profile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.profile-page .profile a {
+  align-self: flex-end;
+}
+.details dl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--title-color);
+}
+.details strong {
+  color: black;
+}
+.details dd {
+  margin-left: 3rem;
+}
+
+.profile img {
+  max-height: 15rem;
+  max-width: 10rem;
+}
+.profile-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+.profile-nav a {
+  text-decoration: none;
+  color: var(--links-color);
+}
+
+.profile-nav a:hover {
+  color: var(--logo-color);
+  text-decoration: underline;
+}
+
+/* avatars  change */
+section.avatars-section {
+  max-width: 70%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+section.avatars-section h1 {
+  color: var(--title-color);
+}
+.current-avatar {
+  max-height: 15rem;
+  max-width: 15rem;
+}
+.avatars {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 1rem 0.5rem;
+  gap: 1rem;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+}
+.avatars img {
+  max-height: 3rem;
+  max-width: 3rem;
+  border-radius: 100%;
+  cursor: pointer;
+}
+.avatars img:hover {
+  transform: scale(1.2);
+}
 
 /* responsiveness */
 @media (max-width: 500px) {
@@ -407,5 +502,22 @@ nav button:hover {
   .membership {
     max-width: 100%;
     margin-top: 1.4rem;
+  }
+
+  /*profile page */
+  .profile-page {
+    max-width: 100%;
+  }
+  .details dd {
+    margin-left: 0.5rem;
+  }
+  /* avatars  change */
+  section.avatars-section {
+    max-width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
   }
 }

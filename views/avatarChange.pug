@@ -1,0 +1,14 @@
+extends layout 
+block suite 
+    main.avatar-change  
+        nav.avatar-nav 
+            a(href="/user/page") Dashboard 
+        section.avatars-section 
+            h1 Select your avatar 
+            .avatars-container 
+                img(src=user.avatar , alt="your avatar" class="current-avatar")
+                .avatars 
+                    each avatar in avatars 
+                        img(src=avatar.url, alt=avatar.name) 
+
+                    

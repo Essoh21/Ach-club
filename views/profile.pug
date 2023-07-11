@@ -1,0 +1,20 @@
+extends layout 
+block suite 
+    main.profile 
+        nav.profile-nav
+            a(href="/user/page") Dashboard 
+            form(action="/user/logout" method="POST")
+                button(type="submit") Log Out  
+        .profile-page 
+            section.profile 
+                h1= user.pseudo 
+                img(src=user.avatar , alt=user.pseudo)
+                a(href="/user/change-avatar")  Change Avatar 
+            section.details 
+                dl 
+                    dt #[strong Details  ] 
+                    dd #[strong Name]:  #{user.userInfo.firstname}
+                    dd #[strong Family name]: #{user.userInfo.lastname}
+                    dd #[strong Email]: #{user.userInfo.email}
+            if user.isAdmin
+                a(href="/user/admin") #[strong Admin]? 

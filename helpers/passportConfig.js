@@ -39,7 +39,7 @@ module.exports = (passport) => {
     try {
       const user = await UserModel.findById(
         userId,
-        "pseudo isMember avatar"
+        "pseudo isMember avatar isAdmin"
       ).populate("userInfo", "firstname lastname email");
       done(null, user);
     } catch (e) {

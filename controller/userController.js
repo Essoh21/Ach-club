@@ -239,9 +239,9 @@ exports.postUserMessage = [
   }),
 ];
 
-exports.getChangeAvatar = asyncHandler((req, res, next) => {
+exports.getChangeAvatar = (req, res, next) => {
   res.render("avatarChange", { avatars: avatarsLinks, user: req.user });
-});
+};
 exports.postLogout = (req, res, next) => {
   req.logout((error) => {
     if (error) {
@@ -250,3 +250,22 @@ exports.postLogout = (req, res, next) => {
     res.redirect("/user/signin");
   });
 };
+
+exports.postChangeAvatar = asyncHandler(async (req, res, next) => {
+  const user = req.user;
+  const userId = user._id;
+  const chosenAvatarname = req.body.chosenAvatar;
+  const chosenAvatarLink = avatarsLinks.find((avatarOject) => {
+    return avatarOject.name === chosenAvatarname;
+  }).url;
+  const updatedUser = {
+    userInfo: user.userInfo,
+    pseudo: user.pseudo,
+    password: user.password,
+    isMember: true,
+    _id: user._id,
+    avatar: chosenAvatarLink,
+  };
+  await UserModel.findByIdAndUpdate(userId, updatedUser);
+  return res.redirect("/user/page");
+});

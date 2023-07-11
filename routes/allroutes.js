@@ -80,4 +80,5 @@ router.get(
   routesProtection.authorizeAuthenticatedUser,
   userController.getChangeAvatar
 );
+router.post("/user/change-avatar", userController.postChangeAvatar);
 module.exports = router;

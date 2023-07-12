@@ -8,6 +8,8 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   isMember: { type: Boolean, required: true, default: false },
   isAdmin: { type: Boolean, required: true, default: false },
+  adminTrials: { type: Number, default: 0 },
+  isAuthenticatedAdmin: { type: Boolean, required: true, default: false },
   avatar: { type: String, required: true, default: "/images/thinking.jpg" },
 });
 userSchema.virtual("url").get(function () {

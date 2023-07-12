@@ -11,7 +11,7 @@ authStrategy(passport);
 
 const session = require("express-session");
 
-require("dotenv").config(); // to put .env variables into process env
+if (process.env.NODE_ENV !== "production") require("dotenv").config(); // to put .env variables into process env
 const port = process.env.PORT;
 //connnect to db
 const mongdbURI = process.env.MONGODB_URI;

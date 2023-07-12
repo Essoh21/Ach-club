@@ -8,6 +8,8 @@ const sendConfirmationEmail = require("../helpers/sendConfirmationEmail");
 const { validationResult, matchedData, body } = require("express-validator");
 const passport = require("passport");
 const avatarsLinks = require("../helpers/avatarsLinks");
+const bcrypt = require("bcryptjs");
+const AdminModel = require("../model/AdminModel");
 
 exports.getHomePage = asyncHandler(async (req, res, next) => {
   res.render("homePage", { title: "Ach-club" });
@@ -197,6 +199,9 @@ exports.postMembershipConfirmation = asyncHandler(async (req, res, next) => {
         pseudo: user.pseudo,
         password: user.password,
         isMember: true,
+        isAdmin: user.isAdmin,
+        isAuthenticatedAdmin: user.isAuthenticatedAdmin,
+        adminTrials: user.adminTrials,
         _id: user._id,
         avatar: user.avatar,
       };
@@ -214,9 +219,109 @@ exports.getAdminCredentials = (req, res, next) => {
   res.render("adminCredentials");
 };
 exports.postAdminCredentials = asyncHandler(async (req, res, next) => {
-  res.send("admin credentials post ");
+  const inputedName = req.body.adminName;
+  const inputedPassword = req.body.adminPass;
+  const user = req.user;
+  let error = "";
+  //get admin doc, all users and all messages
+  const adminDoc = await AdminModel.findOne({ name: inputedName }).exec();
+  if (user.adminTrials > 3) {
+    const updatedUser = {
+      userInfo: user.userInfo,
+      pseudo: user.pseudo,
+      password: user.password,
+      isMember: user.isMember,
+      isAdmin: false,
+      isAuthenticatedAdmin: false,
+      adminTrials: user.adminTrials + 1,
+      _id: user._id,
+      avatar: user.avatar,
+    };
+    await UserModel.findByIdAndUpdate(user._id, updatedUser);
+    res.redirect("/user/page");
+  }
+  if (!adminDoc) {
+    error = "invalid admin name or password";
+    //update his trials
+    const updatedUser = {
+      userInfo: user.userInfo,
+      pseudo: user.pseudo,
+      password: user.password,
+      isMember: user.isMember,
+      isAdmin: user.isAdmin,
+      isAuthenticatedAdmin: false,
+      adminTrials: user.adminTrials + 1,
+      _id: user._id,
+      avatar: user.avatar,
+    };
+    await UserModel.findByIdAndUpdate(user._id, updatedUser);
+    return res.render("adminCredentials", { error: error });
+  }
+  const adminPasswordIsCorrect = await bcrypt.compare(
+    inputedPassword,
+    adminDoc.adminPass
+  );
+  if (!adminPasswordIsCorrect) {
+    error = "invalid admin name or password";
+    const updatedUser = {
+      userInfo: user.userInfo,
+      pseudo: user.pseudo,
+      password: user.password,
+      isMember: user.isMember,
+      isAdmin: user.isAdmin,
+      isAuthenticatedAdmin: false,
+      adminTrials: user.adminTrials + 1,
+      _id: user._id,
+      avatar: user.avatar,
+    };
+    await UserModel.findByIdAndUpdate(user._id, updatedUser);
+    return res.render("adminCredentials", { error: error });
+  }
+
+  // if admin data are correct
+  const updatedUser = {
+    userInfo: user.userInfo,
+    pseudo: user.pseudo,
+    password: user.password,
+    isMember: user.isMember,
+    isAdmin: user.isAdmin,
+    isAuthenticatedAdmin: true,
+    adminTrials: 0,
+    _id: user._id,
+    avatar: user.avatar,
+  };
+  await UserModel.findByIdAndUpdate(user._id, updatedUser);
+  return res.redirect("/admin/page");
 });
 
+exports.getAdminPage = asyncHandler(async (req, res, next) => {
+  const [allUsers, allMessages] = await Promise.all([
+    UserModel.find({}).exec(),
+    MessageModel.find({}).populate("user").exec(),
+  ]);
+  return res.render("adminPage", {
+    users: allUsers,
+    messages: allMessages,
+    user: req.user,
+  });
+});
+
+exports.postAdminQuit = asyncHandler(async (req, res, next) => {
+  const user = req.user;
+  const updatedUser = {
+    userInfo: user.userInfo,
+    pseudo: user.pseudo,
+    password: user.password,
+    isMember: user.isMember,
+    isAdmin: user.isAdmin,
+    isAuthenticatedAdmin: false,
+    adminTrials: user.adminTrials,
+    _id: user._id,
+    avatar: user.avatar,
+  };
+  await UserModel.findByIdAndUpdate(user._id, updatedUser);
+  res.redirect("/user/page");
+});
 exports.postUserMessage = [
   validation.createMessageValidationChain("message", "invalid message"),
   asyncHandler(async (req, res, next) => {
@@ -242,14 +347,41 @@ exports.postUserMessage = [
 exports.getChangeAvatar = (req, res, next) => {
   res.render("avatarChange", { avatars: avatarsLinks, user: req.user });
 };
-exports.postLogout = (req, res, next) => {
+exports.postLogout = asyncHandler(async (req, res, next) => {
+  const user = req.user;
+  const updatedUser = {
+    userInfo: user.userInfo,
+    pseudo: user.pseudo,
+    password: user.password,
+    isMember: user.isMember,
+    isAdmin: user.isAdmin,
+    isAuthenticatedAdmin: false,
+    adminTrials: user.adminTrials,
+    _id: user._id,
+    avatar: user.avatar,
+  };
+  if (user.isAuthenticatedAdmin) {
+    await UserModel.findByIdAndUpdate(user._id, updatedUser);
+  }
   req.logout((error) => {
     if (error) {
       return next(error);
     }
     res.redirect("/user/signin");
   });
-};
+});
+
+exports.getRequestedUser = asyncHandler(async (req, res, next) => {
+  const requestedUserId = req.params.id;
+  const [requestedUser, requestedUserMessages] = Promise.all([
+    UserModel.findById({ requestedUserId }).exec(),
+    MessageModel.findOne({ user: requestedUserId }),
+  ]);
+  return res.render("userRequested", {
+    user: requestedUser,
+    messages: requestedUserMessages,
+  });
+});
 
 exports.postChangeAvatar = asyncHandler(async (req, res, next) => {
   const user = req.user;
@@ -262,7 +394,10 @@ exports.postChangeAvatar = asyncHandler(async (req, res, next) => {
     userInfo: user.userInfo,
     pseudo: user.pseudo,
     password: user.password,
-    isMember: true,
+    isMember: user.isMember,
+    isAdmin: user.isAdmin,
+    isAuthenticatedAdmin: user.isAuthenticatedAdmin,
+    adminTrials: user.adminTrials,
     _id: user._id,
     avatar: chosenAvatarLink,
   };

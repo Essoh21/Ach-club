@@ -23,5 +23,18 @@ exports.authorizeAdmin = (req, res, next) => {
   if (req.user.isAdmin) {
     return next();
   }
+
   res.redirect("/user/page");
+};
+exports.authorizeAuthenticatedAdmin = (req, res, next) => {
+  if (req.user.isAuthenticatedAdmin) {
+    return next();
+  }
+  res.redirect("/user/admin-pass");
+};
+exports.redirectAuthenticatedAdmin = (req, res, next) => {
+  if (req.user.isAuthenticatedAdmin) {
+    return res.redirect("/admin/page");
+  }
+  return next();
 };

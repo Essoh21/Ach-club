@@ -1,0 +1,17 @@
+extends layout 
+block  suite 
+    main 
+        nav 
+            a(href="/user/page") Dashboard
+            form(action="/admin/logout" method="POST") 
+                button(type="submit") Quit Admin
+             
+        .admin-page-container
+            h1  welcome! Admin #{user.userInfo.firstname} 
+            section.users 
+                ul 
+                    h2  Users 
+                    each user in users 
+                        a(href="/admin/user/"+user._id) 
+                            li  #{user.pseudo } , #[strong(style="color:#e55")= messages.reduce((acc,message)=>  (message.user._id+'') === (user._id+'')? acc+1: acc , 0) + "  message(s)"]
+                            

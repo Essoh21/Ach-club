@@ -44,6 +44,14 @@ main nav {
   display: flex;
   justify-content: flex-end;
 }
+main nav a {
+  color: var(--links-color);
+  text-decoration: none;
+}
+main nav a:hover {
+  text-decoration: underline;
+  color: var(--logo-color);
+}
 main nav ul {
   display: flex;
   flex-direction: row;
@@ -63,14 +71,44 @@ ul a:hover,
   color: var(--logo-color);
 }
 
-.home-page-members {
+.home {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home h1 {
+  max-width: 50%;
+  font-size: x-large;
+  letter-spacing: 3px;
+  font-family: serif;
+  margin: 3rem auto;
+  padding: 0.4rem 1rem;
+  border-radius: 0.3rem;
+  background-color: gainsboro;
+}
+.home section {
+  text-align: center;
+}
+.join {
+  background-color: var(--logo-color);
+  color: white;
+  border-radius: 0.2rem;
+  padding: 0.3rem 0.4rem;
+  font-weight: bold;
+}
+button.join {
+  font-size: larger;
+  padding: 0.3rem 0.8rem;
+}
+button.join a {
+  color: white;
+}
+button.join a:hover {
+  color: var(--links-color);
+}
+.join:hover {
   background-color: white;
-  max-width: 60%;
-  margin: 1rem auto;
-  min-height: 80vh;
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  color: gray;
 }
 
 /*signup form */
@@ -309,13 +347,15 @@ nav.admin-credentials a:hover,
   color: var(--logo-color);
 }
 /* membership request */
-.membership {
+.membership,
+.deletion {
   max-width: 50%;
   margin: auto;
   margin-top: 2rem;
   text-align: center;
 }
-.membership section input {
+.membership section input,
+.deletion section input {
   height: 1.4rem;
   width: 1.4rem;
 }
@@ -508,6 +548,19 @@ nav.admin-credentials a {
   text-align: right;
 }
 /* admin page*/
+.admin-page {
+  box-sizing: border-box;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+.admin-page h1,
+.admin-page h2 {
+  color: var(--title-color);
+  font-weight: bold;
+}
 .admin-page nav {
   gap: 2rem;
 }
@@ -529,15 +582,37 @@ nav.admin-credentials a {
 .requested-user nav a {
   text-decoration: none;
 }
+/* message delete */
+.deletion form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.deletion form button {
+  padding: 0.3rem 0.4rem;
+  width: fit-content;
+}
+.message-to-del {
+  box-sizing: border-box;
+  padding: 1rem 2rem;
+  margin: 2rem 0;
+}
 
 /* responsiveness */
 @media (max-width: 500px) {
+  .home h1 {
+    max-width: 90%;
+  }
   header {
     height: 2rem;
     font-size: small;
   }
   h1 {
     font-size: medium;
+  }
+  main a {
+    text-decoration: underline;
   }
   nav ul li {
     font-size: small;

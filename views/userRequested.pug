@@ -9,7 +9,7 @@ block suite
                 each message in messages 
                     li
                         dt 
-                            a(href="/requested/user/message/" + message._id+"/delete")= message.formatted_DateTime 
+                            a(href="/requested/message/" + message._id+"/delete")= message.formatted_DateTime 
                         dd!= message.message  
             .buttons
                 a(href="/requested/"+user._id +"/delete" ) Delete User

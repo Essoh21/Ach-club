@@ -1,13 +1,20 @@
 extends layout 
 block suite 
-    main 
-        nav 
-            ul 
-                a(href="/user/signup")
-                    li Sign Up  
-                a(href="/user/signin")
-                    li Log In  
-        section.home-page-members  
-            h1 Members 
-            .discussions 
-    
+    main.home  
+        nav
+         ul 
+            li  
+                a(href="/user/signin") Log IN 
+            li 
+                a(href="/user/signup" class="join")  Join Now
+        .dark 
+        section 
+            h1  
+                | Welcome! #[br]
+                |you were called here for a reason. #[br]
+                | You achieve great and you are making the world better for all.
+            button.join 
+                a(href="/user/signup") Join 
+            span  Other achievers and exchange 
+
+

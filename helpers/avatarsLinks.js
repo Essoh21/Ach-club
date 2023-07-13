@@ -39,5 +39,13 @@ const avatarsLinks = [
     name: "jackMaa",
     url: "/images/jackMaa.png",
   },
+  {
+    name: "marieCurie",
+    url: "/images/marieCurie.png",
+  },
+  {
+    name: "michelle",
+    url: "/images/michelle.png",
+  },
 ];
 module.exports = avatarsLinks;

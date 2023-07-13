@@ -10,7 +10,7 @@ block  suite
             h1  welcome! Admin #{user.userInfo.firstname} 
             section.users 
                 ul 
-                    h2  Users 
+                    h2 All Users 
                     each user in users 
                         a(href="/user/requested/"+user._id) 
                             li  #{user.pseudo } , #[strong(style="color:#e55")= messages.reduce((acc,message)=>  (message.user._id+'') === (user._id+'')? acc+1: acc , 0) + "  message(s)"]

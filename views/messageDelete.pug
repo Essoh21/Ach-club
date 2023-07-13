@@ -2,18 +2,18 @@ extends layout
 block suite
     main
         nav 
-            a(href="/admin/page") Go Admin Dashboard
+            a(href="/admin/page")  Admin Page
         section.message-to-del 
-            dt= message.formatted_DateTime 
-                dd= message.message 
-        section.deletion-form
+            dt(style="color:#0a66b2")= message.formatted_DateTime 
+                dd!= message.message 
+        section.deletion
             form(action="" method="POST")
                 fieldset
-                    legend Do youwant to delete this message  ?
+                    legend Do you want to delete that  message  ?
                     section
                         input(type="radio" id="yes" name="choice" value="yes")
                         label(for="yes") Yes
                     section
                         input(type="radio" id="no" name="choice" value="no" checked)
                         label(for="no") No
-                button(type="submit") Delete  #[strong= userPseudo]
+                button(type="submit") Execute

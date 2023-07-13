@@ -3,6 +3,7 @@
   --logo-color: #04809e;
   --links-color: #0a66b2;
   --title-color: #5a5555;
+  --deletion-links-color: #7e0e18;
 }
 body {
   margin: 0;
@@ -292,7 +293,8 @@ section .messages {
 
 nav button,
 nav.admin-credentials a,
-.avatar-nav a {
+.avatar-nav a,
+.requested-user nav a {
   font-size: medium;
   border: none;
   background-color: none;
@@ -301,7 +303,8 @@ nav.admin-credentials a,
 }
 nav button:hover,
 nav.admin-credentials a:hover,
-.avatar-nav a:hover {
+.avatar-nav a:hover,
+.requested-user nav a:hover {
   text-decoration: underline;
   color: var(--logo-color);
 }
@@ -409,18 +412,21 @@ main.profile {
   flex-direction: row;
   gap: 1rem;
 }
-.profile-nav a {
+.profile-nav a,
+.admin-page a {
   text-decoration: none;
   color: var(--links-color);
 }
 
-.profile-nav a:hover {
+.profile-nav a:hover,
+.admin-page a:hover {
   color: var(--logo-color);
   text-decoration: underline;
 }
 
 /* avatars  change */
-section.avatars-section {
+section.avatars-section,
+.requested-user-info {
   max-width: 70%;
   margin: auto;
   display: flex;
@@ -467,6 +473,7 @@ section.avatars-section h1 {
   font-weight: bold;
 }
 .avatar-nav a,
+.admin-page a,
 nav.admin-credentials a {
   text-decoration: none;
 }
@@ -499,6 +506,28 @@ nav.admin-credentials a {
   display: inline-block;
   width: 12rem;
   text-align: right;
+}
+/* admin page*/
+.admin-page nav {
+  gap: 2rem;
+}
+
+/* admin requested user page */
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.buttons a {
+  color: var(--deletion-links-color);
+}
+.buttons a:hover {
+  color: red;
+}
+.requested-user nav a {
+  text-decoration: none;
 }
 
 /* responsiveness */
@@ -554,7 +583,8 @@ nav.admin-credentials a {
     font-size: small;
   }
 
-  .membership {
+  .membership,
+  .deletion {
     max-width: 100%;
     margin-top: 1.4rem;
   }
@@ -567,7 +597,8 @@ nav.admin-credentials a {
     margin-left: 0.5rem;
   }
   /* avatars  change */
-  section.avatars-section {
+  section.avatars-section,
+  .requested-user-info {
     max-width: 100%;
     margin: auto;
     display: flex;

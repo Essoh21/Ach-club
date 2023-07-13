@@ -1,0 +1,19 @@
+extends layout
+block suite
+    main
+        nav 
+            a(href="/admin/page") Go Admin Dashboard
+        section.message-to-del 
+            dt= message.formatted_DateTime 
+                dd= message.message 
+        section.deletion-form
+            form(action="" method="POST")
+                fieldset
+                    legend Do youwant to delete this message  ?
+                    section
+                        input(type="radio" id="yes" name="choice" value="yes")
+                        label(for="yes") Yes
+                    section
+                        input(type="radio" id="no" name="choice" value="no" checked)
+                        label(for="no") No
+                button(type="submit") Delete  #[strong= userPseudo]

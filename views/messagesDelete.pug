@@ -1,0 +1,14 @@
+extends layout
+block suite
+    main
+        section.deletion
+            form(action="" method="POST")
+                fieldset
+                    legend Do you realy want to delete all of  #{userPseudo} messages  ?
+                    section
+                        input(type="radio" id="yes" name="choice" value="yes")
+                        label(for="yes") Yes
+                    section
+                        input(type="radio" id="no" name="choice" value="no" checked)
+                        label(for="no") No
+                button(type="submit") Delete 

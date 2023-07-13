@@ -373,14 +373,82 @@ exports.postLogout = asyncHandler(async (req, res, next) => {
 
 exports.getRequestedUser = asyncHandler(async (req, res, next) => {
   const requestedUserId = req.params.id;
-  const [requestedUser, requestedUserMessages] = Promise.all([
-    UserModel.findById({ requestedUserId }).exec(),
-    MessageModel.findOne({ user: requestedUserId }),
+  const [requestedUser, allMessages] = await Promise.all([
+    UserModel.findById(requestedUserId).exec(),
+    MessageModel.find().populate("user").exec(),
   ]);
+  const requestedUserMessages = allMessages.filter((message) => {
+    return message.user._id + "" === requestedUserId + "";
+  });
   return res.render("userRequested", {
     user: requestedUser,
     messages: requestedUserMessages,
   });
+});
+exports.getDeleteMessage = asyncHandler(async (req, res, next) => {
+  const messageId = req.params.messageid;
+  const message = await MessageModel.findById(messageId).exec();
+  res.render("messageDelete", { message: message });
+});
+exports.postDeleteMessage = asyncHandler(async (req, res, next) => {
+  const messageId = req.params.messageid;
+  const adminChoice = req.body.choice;
+  if (adminChoice !== "yes") {
+    return redirect("/admin/page");
+  }
+  await MessageModel.findByIdAndRemove(messageId);
+  res.redirect("/admin/page");
+});
+exports.getDeleteUserMessages = asyncHandler(async (req, res, next) => {
+  const userId = req.params.userid;
+  const user = await UserModel.findById(userId).exec();
+  res.render("messagesDelete", { userPseudo: user.pseudo });
+});
+exports.postDeleteUserMessages = asyncHandler(async (req, res, next) => {
+  const userId = req.params.userid;
+  const adminChoice = req.body.choice;
+  if (adminChoice !== "yes") {
+    return res.redirect("/admin/page");
+  }
+  const allMessages = await MessageModel.find().populate("user").exec();
+  const userMessages = allMessages.filter((message) => {
+    return message.user._id + "" === userId + "";
+  });
+  const queries = userMessages.map((userMessage) => {
+    return MessageModel.findByIdAndRemove(userMessage._id).exec();
+  });
+  await Promise.all(queries);
+  return res.redirect("/admin/page");
+});
+
+exports.getDeleteUser = asyncHandler(async (req, res, next) => {
+  const userId = req.params.userid;
+  const [user, allMessages] = await Promise.all([
+    UserModel.findById(userId).exec(),
+    MessageModel.find({}).exec(),
+  ]);
+  const userMessages = allMessages.filter((message) => {
+    return message.user._id + "" === userId + "";
+  });
+  res.render("userDelete", {
+    userPseudo: user.pseudo,
+    userMessages: userMessages,
+  });
+});
+
+exports.postDeleteUser = asyncHandler(async (req, res, next) => {
+  const userId = req.params.userid;
+  const adminChoice = req.body.choice;
+  if (adminChoice !== "yes") {
+    return res.redirect("/admin/page");
+  }
+  const user = await UserModel.findById(userId).populate("userInfo").exec();
+  const userInfoId = user.userInfo._id;
+  await Promise.all([
+    UserModel.findByIdAndRemove(userId),
+    UserInfoModel.findByIdAndRemove(userInfoId),
+  ]);
+  return res.redirect("/admin/page");
 });
 
 exports.postChangeAvatar = asyncHandler(async (req, res, next) => {

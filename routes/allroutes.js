@@ -86,6 +86,44 @@ router.get(
   userController.getRequestedUser
 );
 
+router.get(
+  "/requested/message/:messageid/delete",
+  routesProtection.authorizeAdmin,
+  routesProtection.authorizeAuthenticatedAdmin,
+  userController.getDeleteMessage
+);
+router.post(
+  "/requested/message/:messageid/delete",
+  routesProtection.authorizeAdmin,
+  routesProtection.authorizeAuthenticatedAdmin,
+  userController.postDeleteMessage
+);
+router.get(
+  "/requested/:userid/messages/delete",
+  routesProtection.authorizeAdmin,
+  routesProtection.authorizeAuthenticatedAdmin,
+  userController.getDeleteUserMessages
+);
+
+router.post(
+  "/requested/:userid/messages/delete",
+  routesProtection.authorizeAdmin,
+  routesProtection.authorizeAuthenticatedAdmin,
+  userController.postDeleteUserMessages
+);
+router.get(
+  "/requested/:userid/delete",
+  routesProtection.authorizeAdmin,
+  routesProtection.authorizeAuthenticatedAdmin,
+  userController.getDeleteUser
+);
+router.post(
+  "/requested/:userid/delete",
+  routesProtection.authorizeAdmin,
+  routesProtection.authorizeAuthenticatedAdmin,
+  userController.postDeleteUser
+);
+
 router.post(
   "/admin/logout",
   routesProtection.authorizeAdmin,

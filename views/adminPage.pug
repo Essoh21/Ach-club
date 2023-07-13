@@ -1,6 +1,6 @@
 extends layout 
 block  suite 
-    main 
+    main.admin-page  
         nav 
             a(href="/user/page") Dashboard
             form(action="/admin/logout" method="POST") 
@@ -12,6 +12,6 @@ block  suite
                 ul 
                     h2  Users 
                     each user in users 
-                        a(href="/admin/user/"+user._id) 
+                        a(href="/user/requested/"+user._id) 
                             li  #{user.pseudo } , #[strong(style="color:#e55")= messages.reduce((acc,message)=>  (message.user._id+'') === (user._id+'')? acc+1: acc , 0) + "  message(s)"]
                             

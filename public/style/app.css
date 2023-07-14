@@ -221,10 +221,34 @@ footer a {
   max-width: 30rem;
 }
 .content a {
-  font-size: larger;
+  font-size: x-large;
+  font-weight: bold;
+  color: var(--links-color);
+}
+.content a:hover {
+  color: var(--logo-color);
 }
 
 /* user Page */
+.new-message-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+#message-text {
+  background-color: #dfdcdc;
+  padding: 0.4rem 1rem;
+  border: 2px solid #dfdcdc;
+  border-radius: 0.3rem;
+  letter-spacing: 0.15rem;
+  align-self: flex-start;
+  word-break: break-all;
+  font-size: large;
+}
+
 h1.messages {
   width: 100;
   display: flex;
@@ -289,7 +313,7 @@ section .messages {
 .user-info {
   box-sizing: border-box;
   max-width: 10rem;
-  max-height: 20rem;
+  max-height: 12rem;
   padding: 0.5rem 0.7rem;
   display: flex;
   flex-direction: column;
@@ -477,9 +501,14 @@ section.avatars-section,
 section.avatars-section h1 {
   color: var(--title-color);
 }
+.avatars-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .current-avatar {
-  max-height: 15rem;
-  max-width: 15rem;
+  max-height: 8rem;
+  max-width: 8rem;
 }
 .avatars {
   display: flex;
@@ -598,6 +627,11 @@ nav.admin-credentials a {
   padding: 1rem 2rem;
   margin: 2rem 0;
 }
+/* */
+form.new-message-form {
+  display: flex;
+  flex-direction: column;
+}
 
 /* responsiveness */
 @media (max-width: 500px) {
@@ -653,6 +687,8 @@ nav.admin-credentials a {
   section .messages {
     font-size: small;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .user-info {
     font-size: small;

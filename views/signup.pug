@@ -6,7 +6,7 @@ block  suite
             form(action="" method="POST" autocomplete="on")
                 div(class='firstname form-item' )
                     label(for="firstname") First Name 
-                    input(type="text" id='firstname' required, name='firstname' placeholder= 'first name ' value=(validData?validData.firstname:''))
+                    input(type="text" id='firstname' required, name='firstname' placeholder= 'first name ' autofocus  value=(validData?validData.firstname:''))
                 div(class='lastname form-item' )
                     label(for="lastname") Last Name 
                     input(type="text" id='lastname' required  name='lastname' placeholder="family name " value=(validData?validData.lastname:'') ) 

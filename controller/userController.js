@@ -131,16 +131,17 @@ exports.postSignupPassword = [
     const userInfoId = req.params.id;
     const validationError = validationResult(req);
     const validData = matchedData(req);
-    if (!validationError.isEmpty()) {
-      res.render("password", { errors: validationError.array() });
-      return;
-    }
-    // if data is valide then create userModel instance and save it
+    //  create userModel instance and save it
     const user = new UserModel({
       userInfo: userInfoId,
       pseudo: validData.pseudo,
       password: validData.password,
     });
+
+    if (!validationError.isEmpty()) {
+      res.render("password", { errors: validationError.array(), user: user });
+      return;
+    }
 
     try {
       await user.save();
@@ -328,7 +329,12 @@ exports.postUserMessage = [
     const validData = matchedData(req);
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-      return res.render("userPage", { errors: validationErrors.array() });
+      const messages = await MessageModel.find({}).populate("user").exec();
+      return res.render("userPage", {
+        errors: validationErrors,
+        user: req.user,
+        messages: messages,
+      });
     }
     //prepare data for save if valide data
     const message = new MessageModel({
@@ -394,7 +400,7 @@ exports.postDeleteMessage = asyncHandler(async (req, res, next) => {
   const messageId = req.params.messageid;
   const adminChoice = req.body.choice;
   if (adminChoice !== "yes") {
-    return redirect("/admin/page");
+    return res.redirect("/admin/page");
   }
   await MessageModel.findByIdAndRemove(messageId);
   res.redirect("/admin/page");
@@ -443,6 +449,10 @@ exports.postDeleteUser = asyncHandler(async (req, res, next) => {
     return res.redirect("/admin/page");
   }
   const user = await UserModel.findById(userId).populate("userInfo").exec();
+  if (!user.userInfo) {
+    await UserModel.findByIdAndRemove(userId);
+    return res.redirect("/admin/page");
+  }
   const userInfoId = user.userInfo._id;
   await Promise.all([
     UserModel.findByIdAndRemove(userId),

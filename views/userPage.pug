@@ -15,12 +15,14 @@ block suite
             .messages 
                 .new-message 
                     img(src=locals.user.avatar , alt=locals.user.pseudo)
-                    form(action="/user/message" method='POST')
+                    form(action="/user/message" method='POST' class="new-message-form")
                         section.new-message-container 
                             label.write(for="new-message" style='visibility:hidden') write a post 
-                            textarea(name="message",id ="new-message" cols="auto", rows="3") write new message ... 
-                        if locals.user.isMember 
-                            button(type="submit")   Post    
+                            textarea(name="message",id ="new-message" cols="auto", rows="3" value = "" placeholder="write new message here ...")
+                            button(type="submit" onclick="this.innerHTML = 'posting ...'")   Post    
+                        if errors 
+                                    ul.errors 
+                                        li Empty message 
                 hr.separator
                 if messages 
                     each message in messages.reverse() 
@@ -28,10 +30,7 @@ block suite
                             .header 
                                 img(src=message.user.avatar, alt=message.user.pseudo)
                                 h2= message.user.pseudo +"," + "  " + message.formatted_DateTime 
-                            if message.user._id === locals.user._id
-                                p(style="align-self: flex-end")!= message.message
-                            else 
-                            p(style="align-self: flex-start")!= message.message
+                                p(id ="message-text")!= message.message
             if !locals.user.isMember
                 aside.member-request 
                     a(href="/user/member-request") Become Member to post? #{user.isMember}

@@ -4,10 +4,15 @@ const userController = require("../controller/userController");
 const routesProtection = require("../helpers/routesProtection");
 
 router.get("/", userController.getHomePage);
-router.get("/user/signup", userController.getSignup);
+router.get(
+  "/user/signup",
+  routesProtection.redirectAuthenticatedUser,
+  userController.getSignup
+);
 router.post("/user/signup", userController.postSignup);
 router.get(
   "/user/:id/info/verification",
+  routesProtection.redirectAuthenticatedUser,
   userController.getSignupEmailVerification
 );
 router.post(

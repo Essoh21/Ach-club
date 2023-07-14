@@ -6,7 +6,7 @@ block suite
         section.avatars-section 
             h1 Select your avatar 
             .avatars-container 
-                img(src=user.avatar , alt="your avatar" class="current-avatar")
+                img(src=user.avatar , alt="your avatar" class="current-avatar" )
                 form(action="/user/change-avatar", method = 'POST').avatars 
                     each avatar in avatars 
                         div 

@@ -1,6 +1,5 @@
 const avatars = document.querySelectorAll(".avatar-img");
 const radioInputs = document.querySelectorAll('input[type="radio"]');
-alert("you clicked me");
 
 function handleAvatarClick(event) {
   const clickedAvatar = event.target;

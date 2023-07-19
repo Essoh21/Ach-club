@@ -8,7 +8,7 @@ const passport = require("passport");
 const flash = require("express-flash");
 const compression = require("compression"); //for production
 const helmet = require("helmet"); // for http headers config in production
-const rateLimit = require("express-rate-limit"); // for limiting the number of request from one widow in a given duration on production
+const rateLimit = require("express-rate-limit"); // for limiting the number of request from one window in a given duration on production
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)

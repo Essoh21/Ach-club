@@ -1,17 +1,20 @@
-extends layout 
-block suite 
-    main.avatar-change  
-        nav.avatar-nav 
-            a(href="/user/page") Dashboard 
-        section.avatars-section 
-            h1 Select your avatar 
-            .avatars-container 
-                img(src=user.avatar , alt="your avatar" class="current-avatar" )
-                form(action="/user/change-avatar", method = 'POST').avatars 
-                    each avatar in avatars 
-                        div 
+extends layout
+
+block suite
+    main.avatar-change
+        nav.avatar-nav
+            a(href="/user/page") Dashboard
+        section.avatars-section
+            h1 Select your avatar
+            .avatars-container
+                img(src=user.avatar, alt="your avatar", class="current-avatar")
+                form(action="/user/change-avatar", method='POST').avatars
+                    each avatar in avatars
+                        div
                             label(for=avatar.name)
-                                img(src=avatar.url  alt=avatar.name  onclick=`((imgEl)=>{const avatars=document.querySelectorAll('.avatars img'); avatars.forEach((avatar)=>{avatar.classList.remove('selected');});imgEl.classList.add('selected');})(this)`) 
-                            input(type="radio", name="chosenAvatar" value=avatar.name  id=avatar.name style="display:none")
-                    button(type="submit") Update 
-                    
+                                img(src=avatar.url, alt=avatar.name, data-avatar-name=avatar.name, class="avatar-img")
+                            input(type="radio", name="chosenAvatar", value=avatar.name, id=avatar.name, style="display:none")
+                    button(type="submit") Update
+    script(src="/js/handleClick.js").
+       
+        
